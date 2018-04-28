@@ -15,10 +15,27 @@
 
 ## Mecánicas
 
-- **Movimiento**:
+### Jugador
+
+- **Movimiento**:  
+  El personaje del jugador siempre se mueve de forma relativa a la posición de
+  la cámara.
 
 ![movement](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/movement.PNG)
 
-- **Mirar hacia el cursor**:
+- **Mirar hacia el cursor**:  
+  El personaje siempre mira hacia la posición del cursor en la pantalla. Se coloca
+  una interpolación para limitar la velocidad de rotación del personaje.
 
 ![look at cursor](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/look_at_cursor.PNG)
+
+- **Desplazar la vista**:  
+  La cámara se desplaza un poco en la dirección que se encuentra el cursor
+  relativo al personaje.
+
+![camera offset](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/camera_offset.PNG)
+
+- **Rotación de la cámara (Extra)**:  
+  El jugador es capaz de rotar la cámara del personaje.
+
+![camera rotation](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/camera_rotation.PNG)
