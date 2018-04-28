@@ -6,6 +6,7 @@
 - `Content/Mannequin`: Contiene el maniquí para los diferentes personajes.
 - `Content/TimeCommandoPrototype`: Contiene un prototipo de las mecánicas de
   juego elaboradas a partir de blueprints.
+- `Source`: Acá se tiene el código en C++ del juego.
 
 ## Configuraciones especiales
 
