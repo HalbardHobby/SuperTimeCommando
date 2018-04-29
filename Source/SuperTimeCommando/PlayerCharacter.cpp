@@ -31,7 +31,7 @@ APlayerCharacter::APlayerCharacter()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->bAbsoluteRotation = true;
-	CameraBoom->TargetArmLength = 800.0f;
+	CameraBoom->TargetArmLength = 1100.f;
 	CameraBoom->RelativeRotation = FRotator(-60.0f, 0.0f, 0.0f);
 	CameraBoom->bDoCollisionTest = false;
 
@@ -45,12 +45,12 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	// Cuadrar parametros adicionales
-	CameraRotationSpeed = 5.f;
+	CameraRotationSpeed = 3.f;
 	CharacterRotationSpeed = 5.f;
 
-	MaxCameraOffsetDistance = 150.f;
-	CameraOffsetScale = 0.3f;
-	CameraOffsetSpeed = 2.f;
+	MaxCameraOffsetDistance = 250.f;
+	CameraOffsetScale = 0.25f;
+	CameraOffsetSpeed = 1.5f;
 }
 
 // Called every frame
