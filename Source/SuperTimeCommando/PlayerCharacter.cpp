@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "Engine/Engine.h"
 
 // Sets default values
 APlayerCharacter::APlayerCharacter()
@@ -42,21 +43,41 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	// Cuadrar parametros adicionales
+	CameraRotationSpeed = 5.f;
+	CharacterRotationSpeed = 5.f;
 }
 
 // Called every frame
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void APlayerCharacter::CameraOffsetToCursor(float DeltaTime)
-{
-
+	LookAtCursor(DeltaTime);
+	OffsetCameraToCursor(DeltaTime);
 }
 
 void APlayerCharacter::LookAtCursor(float DeltaTime)
+{
+	// Se obtiene la posición del cursor
+	FHitResult CursorToWorldPosition;
+	APlayerController* Controller =  GetWorld()->GetFirstPlayerController();
+	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
+
+	// Se calcula la orientación del actor
+	FVector Direction = GetActorLocation() - CursorToWorldPosition.Location;
+	FRotator TargetRotation = FRotationMatrix::MakeFromZ(Direction).Rotator();
+	TargetRotation.Pitch = 0.f;
+	TargetRotation.Roll = 0.f;
+
+	FRotator TargetInterpolation = FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaTime, CharacterRotationSpeed);
+
+	SetActorRotation(TargetInterpolation);
+	
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TargetRotation.ToString());
+}
+
+void APlayerCharacter::OffsetCameraToCursor(float DeltaTime)
 {
 
 }
@@ -72,9 +93,13 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	//bind de las acciones
+	PlayerInputComponent->BindAxis("MoveForward", this, &APlayerCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &APlayerCharacter::MoveRight);
+	PlayerInputComponent->BindAxis("TurnRight", this, &APlayerCharacter::TurnRight);
 }
 
-void APlayerCharacter::MoveRight(float Value)
+void APlayerCharacter::MoveForward(float Value)
 {
 	//Tomar plano xy del vector frontal de la camara
 	FVector Direction = PlayerCameraComponent->GetForwardVector();
@@ -84,7 +109,7 @@ void APlayerCharacter::MoveRight(float Value)
 	AddMovementInput(Direction, Value);
 }
 
-void APlayerCharacter::MoveForward(float Value)
+void APlayerCharacter::MoveRight(float Value)
 {
 	//Tomar plano xy del vector derecha de la camara
 	FVector Direction = PlayerCameraComponent->GetRightVector();
@@ -96,7 +121,7 @@ void APlayerCharacter::MoveForward(float Value)
 
 void APlayerCharacter::TurnRight(float Value)
 {
-	FRotator* DeltaRotation = new FRotator( 0.f, 0.f, Value * CameraRotationSpeed );
+	FRotator* DeltaRotation = new FRotator( 0.f, Value * CameraRotationSpeed, 0.f );
 
-	PlayerCameraComponent->AddWorldRotation( *DeltaRotation );
+	CameraBoom->AddWorldRotation( *DeltaRotation );
 }

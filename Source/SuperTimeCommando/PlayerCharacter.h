@@ -40,13 +40,19 @@ protected:
 	void MoveForward(float Val);
 
 	/** Función para el offset de la cámara */
-	void CameraOffsetToCursor(float DeltaTime);
+	void OffsetCameraToCursor(float DeltaTime);
 
 	/** Función para la rotación del personaje */
 	void LookAtCursor(float DeltaTime);
 
 	/** Velocidad a la que rota la cámara */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
 	float CameraRotationSpeed;
+
+	/** Velocidad a la que rota la cámara */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
+	float CharacterRotationSpeed;
+
 
 private:
 	/** Camara del jugador */
