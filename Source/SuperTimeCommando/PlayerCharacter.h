@@ -40,10 +40,13 @@ protected:
 	void MoveForward(float Val);
 
 	/** Función para el offset de la cámara */
-	void OffsetCameraToCursor(float DeltaTime);
+	void OffsetCameraToCursor(float DeltaTime, FVector Direction);
 
 	/** Función para la rotación del personaje */
-	void LookAtCursor(float DeltaTime);
+	void LookAtCursor(float DeltaTime, FVector Direction);
+
+	/** Funión de utilidad que encuentra la dirección hacia el cursor */
+	FVector FindDirectionToCusor();
 
 	/** Velocidad a la que rota la cámara */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CameraMovement)

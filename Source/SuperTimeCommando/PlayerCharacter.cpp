@@ -57,18 +57,13 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	LookAtCursor(DeltaTime);
-	OffsetCameraToCursor(DeltaTime);
+	FVector Direction = FindDirectionToCusor();
+	LookAtCursor(DeltaTime, Direction);
+	OffsetCameraToCursor(DeltaTime, Direction);
 }
 
-void APlayerCharacter::LookAtCursor(float DeltaTime)
+void APlayerCharacter::LookAtCursor(float DeltaTime, FVector Direction)
 {
-	// Se obtiene la posición del cursor
-	FHitResult CursorToWorldPosition;
-	APlayerController* Controller =  GetWorld()->GetFirstPlayerController();
-	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
-	FVector Direction = GetActorLocation() - CursorToWorldPosition.Location;
-	
 	FRotator TargetRotation = FRotationMatrix::MakeFromZ(Direction).Rotator();
 	TargetRotation.Pitch = 0.f;
 	TargetRotation.Roll = 0.f;
@@ -77,20 +72,22 @@ void APlayerCharacter::LookAtCursor(float DeltaTime)
 	SetActorRotation(TargetInterpolation);
 }
 
-void APlayerCharacter::OffsetCameraToCursor(float DeltaTime)
+void APlayerCharacter::OffsetCameraToCursor(float DeltaTime, FVector Direction)
 {
-	// Se obtiene la posición del cursor
-	FHitResult CursorToWorldPosition;
-	APlayerController* Controller = GetWorld()->GetFirstPlayerController();
-	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
-	FVector Direction = GetActorLocation() - CursorToWorldPosition.Location;
-	
 	float DistanceOffset = Direction.Size() * CameraOffsetScale;
-
 	float DistanceInterpolation = FMath::FInterpTo(CameraBoom->RelativeLocation.Y, DistanceOffset, DeltaTime, CameraOffsetSpeed);
 	DistanceInterpolation = FMath::Clamp<float>(DistanceInterpolation, 0.f, MaxCameraOffsetDistance);
 
 	CameraBoom->SetRelativeLocation(FVector(0.f, DistanceInterpolation, 0.f));
+}
+
+FVector APlayerCharacter::FindDirectionToCusor()
+{
+	// Se encuentra la posiión del cursor en 3D y es restada de la posición del personaje.
+	FHitResult CursorToWorldPosition;
+	APlayerController* Controller = GetWorld()->GetFirstPlayerController();
+	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
+	return GetActorLocation() - CursorToWorldPosition.Location;
 }
 
 // Llamado al iniciar el juego
