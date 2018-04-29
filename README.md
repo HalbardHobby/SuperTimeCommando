@@ -40,3 +40,10 @@
   El jugador es capaz de rotar la cámara del personaje.
 
 ![camera rotation](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/camera_rotation.PNG)
+
+### Patrulla IA
+
+- **Cono de visión**:
+  Para el cono de visión se rastrea la geometría usando un EQS.
+
+  ![eqs cone](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/eqs_cone.PNG)
