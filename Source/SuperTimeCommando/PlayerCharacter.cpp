@@ -47,6 +47,10 @@ APlayerCharacter::APlayerCharacter()
 	// Cuadrar parametros adicionales
 	CameraRotationSpeed = 5.f;
 	CharacterRotationSpeed = 5.f;
+
+	MaxCameraOffsetDistance = 150.f;
+	CameraOffsetScale = 0.3f;
+	CameraOffsetSpeed = 2.f;
 }
 
 // Called every frame
@@ -63,23 +67,30 @@ void APlayerCharacter::LookAtCursor(float DeltaTime)
 	FHitResult CursorToWorldPosition;
 	APlayerController* Controller =  GetWorld()->GetFirstPlayerController();
 	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
-
-	// Se calcula la orientación del actor
 	FVector Direction = GetActorLocation() - CursorToWorldPosition.Location;
+	
 	FRotator TargetRotation = FRotationMatrix::MakeFromZ(Direction).Rotator();
 	TargetRotation.Pitch = 0.f;
 	TargetRotation.Roll = 0.f;
 
 	FRotator TargetInterpolation = FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaTime, CharacterRotationSpeed);
-
 	SetActorRotation(TargetInterpolation);
-	
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, TargetRotation.ToString());
 }
 
 void APlayerCharacter::OffsetCameraToCursor(float DeltaTime)
 {
+	// Se obtiene la posición del cursor
+	FHitResult CursorToWorldPosition;
+	APlayerController* Controller = GetWorld()->GetFirstPlayerController();
+	Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, CursorToWorldPosition);
+	FVector Direction = GetActorLocation() - CursorToWorldPosition.Location;
+	
+	float DistanceOffset = Direction.Size() * CameraOffsetScale;
 
+	float DistanceInterpolation = FMath::FInterpTo(CameraBoom->RelativeLocation.Y, DistanceOffset, DeltaTime, CameraOffsetSpeed);
+	DistanceInterpolation = FMath::Clamp<float>(DistanceInterpolation, 0.f, MaxCameraOffsetDistance);
+
+	CameraBoom->SetRelativeLocation(FVector(0.f, DistanceInterpolation, 0.f));
 }
 
 // Llamado al iniciar el juego

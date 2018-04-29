@@ -46,8 +46,20 @@ protected:
 	void LookAtCursor(float DeltaTime);
 
 	/** Velocidad a la que rota la cámara */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CameraMovement)
 	float CameraRotationSpeed;
+
+	/** Máxima distancia que puede alejarse la cámara del jugador */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CameraMovement)
+	float MaxCameraOffsetDistance;
+
+	/** Escala a la que se desplaza la camara con respecto al cursor */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CameraMovement)
+	float CameraOffsetScale;
+
+	/** Velocidad a la que se spuede mover la cámara. */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CameraMovement)
+	float CameraOffsetSpeed;
 
 	/** Velocidad a la que rota la cámara */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Movement)
