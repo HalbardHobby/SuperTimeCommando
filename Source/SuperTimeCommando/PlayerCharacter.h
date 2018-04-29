@@ -15,6 +15,17 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	/** Retorna el subcomponente cámara. **/
+	FORCEINLINE class UCameraComponent* GetPlayerCameraComponent() const { return PlayerCameraComponent; }
+	/** Retorna el cubcomponente de boom de cámara*/
+	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -28,17 +39,14 @@ protected:
 	/** Función para movimiento frontal */
 	void MoveForward(float Val);
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	/** Función para el offset de la cámara */
+	void CameraOffsetToCursor(float DeltaTime);
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	/** Función para la rotación del personaje */
+	void LookAtCursor(float DeltaTime);
 
-	/** Retorna el subcomponente cámara. **/
-	FORCEINLINE class UCameraComponent* GetPlayerCameraComponent() const { return PlayerCameraComponent; }
-	/** Retorna el cubcomponente de boom de cámara*/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	/** Velocidad a la que rota la cámara */
+	float CameraRotationSpeed;
 
 private:
 	/** Camara del jugador */

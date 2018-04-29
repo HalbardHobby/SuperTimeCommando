@@ -3,12 +3,10 @@
 #include "PlayerCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Camera/CameraComponent.h"
-#include "Components/DecalComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
 
@@ -53,11 +51,20 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 }
 
+void APlayerCharacter::CameraOffsetToCursor(float DeltaTime)
+{
+
+}
+
+void APlayerCharacter::LookAtCursor(float DeltaTime)
+{
+
+}
+
 // Llamado al iniciar el juego
 void APlayerCharacter::BeginPlay() 
 {
 	Super::BeginPlay();
-
 }
 
 // Called to bind functionality to input
@@ -69,15 +76,27 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void APlayerCharacter::MoveRight(float Value)
 {
+	//Tomar plano xy del vector frontal de la camara
+	FVector Direction = PlayerCameraComponent->GetForwardVector();
+	Direction.Z = 0.f;
 
-}
-
-void APlayerCharacter::TurnRight(float Value)
-{
-
+	Direction.Normalize();
+	AddMovementInput(Direction, Value);
 }
 
 void APlayerCharacter::MoveForward(float Value)
 {
+	//Tomar plano xy del vector derecha de la camara
+	FVector Direction = PlayerCameraComponent->GetRightVector();
+	Direction.Z = 0.f;
 
+	Direction.Normalize();
+	AddMovementInput(Direction, Value);
+}
+
+void APlayerCharacter::TurnRight(float Value)
+{
+	FRotator* DeltaRotation = new FRotator( 0.f, 0.f, Value * CameraRotationSpeed );
+
+	PlayerCameraComponent->AddWorldRotation( *DeltaRotation );
 }
