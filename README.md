@@ -53,6 +53,20 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
 
   ![eqs cone](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/eqs_cone.PNG)
 
+  A partir de la respuesta obtenida por el EQS se calcula la posición de los
+  vertices con respecto al agente y se crea el mesh.
+
+  ![mesh calculation](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/ai_patrol/mesh_creation.PNG)
+
+  Con el fin de evitar el overhead cada frame se asume que el ordenamiento de
+  los triengulos es generado al inicio de la ejecución.
+
+  ![triangle definition](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/ai_patrol/triangle_definition.PNG)
+
+  Estas configuraciones tienen el siguiente resultado final.
+
+  ![vision mesh](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/vision_mesh.PNG)
+
 - **Tarea de Patrullaje**:  
   El Agente patrulla una serie de puntos predefinidos en un orden especifico.
 
