@@ -56,12 +56,12 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
   A partir de la respuesta obtenida por el EQS se calcula la posición de los
   vertices con respecto al agente y se crea el mesh.
 
-  ![mesh calculation](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/ai_patrol/mesh_creation.PNG)
+  ![mesh calculation](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/ai_patrol/mesh_creation.PNG)
 
   Con el fin de evitar el overhead cada frame se asume que el ordenamiento de
   los triengulos es generado al inicio de la ejecución.
 
-  ![triangle definition](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/ai_patrol/triangle_definition.PNG)
+  ![triangle definition](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/ai_patrol/triangle_definition.PNG)
 
   Estas configuraciones tienen el siguiente resultado final.
 
