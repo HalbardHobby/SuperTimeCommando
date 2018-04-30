@@ -68,7 +68,7 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
   En primer lugar se tiene un componente personalizado que cada cierto tiempo
   toma un frame con la posición y rotación del actor que lo posee.
 
-  ![record frame](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/rewind_time/record_frame.PNG)
+  ![record frame](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/rewind_time/record_frame.png)
 
   Este mismo componente es capaz de regresar los frames interpolando entre ellos
   una vez recibe el flag requerido.
