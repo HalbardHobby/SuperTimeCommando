@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "ProceduralMeshComponent.h"
+#include "EnvironmentQuery/EnvQueryManager.h"
+#include "EnvironmentQuery/EnvQueryTypes.h"
 #include "GameFramework/Character.h"
 #include "EnemyPatrol.generated.h"
 
@@ -30,20 +32,38 @@ protected:
 	void CreateVisionCone();
 
 	/** Actualiza el cono cada frame */
-	void UpdateVisionCone();
+	void UpdateVisionCone(TSharedPtr<FEnvQueryResult> Result);
 
-	/** Vertices del cono procedural */
-	TArray<FVector> ConeVertices;
+	/** Cantidd de puntos de referencia para el cono */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	int32 NumberOfReferencePoints;
 
-	/** Triangulos del cono de visión */
-	TArray<uint32> ConeTriangles;
+	/** Query de alcance del cono de visión */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	class UEnvQuery* VisionConeQuery;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	class UMaterial* VisionConeMaterial;
 	
 private:
 	/** Cono de visión */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
 	class UProceduralMeshComponent* VisionConeMesh;
-	
-	/** Query de alcance del cono de visión */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
-	class UEnvQuery* VisionConeReach;
+
+	/** Solicitud del cono de visión */
+	struct FEnvQueryRequest VisionConeRequest;
+
+	/** Vertices del cono procedural */
+	TArray<FVector> VisionConeVertices;
+
+	/** Triangulos del cono de visión */
+	TArray<int> VisionConeTriangles;
+
+	TArray<FVector> VisionConeNormals;
+
+	TArray<FVector2D> VisionConeUV;
+
+	TArray<FColor> VisionConeColor;
+
+	TArray<FProcMeshTangent> VisionConeTangents;
 };
