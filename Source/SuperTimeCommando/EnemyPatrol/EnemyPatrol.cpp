@@ -34,7 +34,6 @@ AEnemyPatrol::AEnemyPatrol()
 	VisionConeMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("VisionConeMesh"));
 	VisionConeMesh->SetupAttachment(RootComponent);
 	VisionConeMesh->RelativeLocation = FVector(0.f, 0.f, 70.f);
-	VisionConeMesh->RelativeRotation = FRotator(0.f, 0.f, 90.f);
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -52,32 +51,6 @@ void AEnemyPatrol::BeginPlay()
 void AEnemyPatrol::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	FHitResult OutHit;
-	FCollisionQueryParams params;
-
-	FVector Start = GetActorLocation();
-	Start.Z += 70.f;
-
-	FVector End = ((GetActorForwardVector() * 500.f) + Start);
-
-	float DeltaVision = VisionConeAngle / (NumberOfReferencePoints - 1);
-	float StartingAngle = -VisionConeAngle / 2;
-	FRotator CurrentRotation = FRotator(0.f, StartingAngle, 0.f);
-	for (uint16 i = 1; i <= NumberOfReferencePoints; i++)
-	{
-		End = CurrentRotation.RotateVector((GetActorForwardVector() * MaxVisionDistance)) + Start;
-		CurrentRotation.Yaw += DeltaVision;
-
-		if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECollisionChannel::ECC_Visibility))
-		{
-			VisionConeVertices[i] = OutHit.Location - Start;
-		}
-		else 
-		{
-			VisionConeVertices[i] = End - Start;
-		}
-	}
 	UpdateVisionCone();
 }
 
@@ -99,6 +72,7 @@ void AEnemyPatrol::CreateVisionCone()
 	VisionConeColor.Init(FColor(), NumberOfReferencePoints + 1);
 	VisionConeTangents.Init(FProcMeshTangent(0, 1, 0), NumberOfReferencePoints + 1);
 
+	// Se crean valores constantes para la función
 	const TArray<FVector> Vertices = VisionConeVertices;
 	const TArray<int> Triangles = VisionConeTriangles;
 	const TArray<FVector> Normals = VisionConeNormals;
@@ -113,6 +87,27 @@ void AEnemyPatrol::CreateVisionCone()
 
 void AEnemyPatrol::UpdateVisionCone()
 {
+	FHitResult OutHit;
+	FCollisionQueryParams params;
+
+	FVector Start = GetActorLocation();
+	FVector End;
+
+	float DeltaVision = VisionConeAngle / (NumberOfReferencePoints - 1);
+	float StartingAngle = -VisionConeAngle / 2;
+	FRotator CurrentRotation = FRotator(0.f, StartingAngle, 0.f);
+	
+	for (uint16 i = 1; i <= NumberOfReferencePoints; i++)
+	{
+		End = CurrentRotation.RotateVector((GetActorForwardVector() * MaxVisionDistance)) + Start;
+		CurrentRotation.Yaw += DeltaVision;
+
+		if (GetWorld()->LineTraceSingleByChannel(OutHit, Start, End, ECollisionChannel::ECC_Visibility))
+			VisionConeVertices[i] = OutHit.Location - Start;
+		else
+			VisionConeVertices[i] = End - Start;
+	}
+
 	const TArray<int> Triangles = VisionConeTriangles;
 	const TArray<FVector> Vertices = VisionConeVertices;
 	const TArray<FVector> Normals = VisionConeNormals;
@@ -120,7 +115,7 @@ void AEnemyPatrol::UpdateVisionCone()
 	const TArray<FColor> Color = VisionConeColor;
 	const TArray<FProcMeshTangent> Tangents = VisionConeTangents;
 
-	VisionConeMesh->CreateMeshSection(0, Vertices, Triangles, Normals, UV0, Color, Tangents, false);
+	VisionConeMesh->UpdateMeshSection(0, Vertices, Normals, UV0, Color, Tangents);
 	VisionConeMesh->SetMaterial(0, VisionConeMaterial);
 	VisionConeMesh->SetWorldRotation(FRotator(0.f, 0.f, 0.f));
 }

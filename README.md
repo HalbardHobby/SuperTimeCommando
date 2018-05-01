@@ -48,7 +48,11 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
 
 ### Patrulla IA
 
-- **Cono de visión**:  
+  Implementado en `Source/SuperTimeCommando/EnemyPatrol/EnemyPatrol.cpp` y 
+  `Source/SuperTimeCommando/EnemyPatrol/EnemyPatrol.h`
+
+
+- **Cono de visión**:    
   Para el cono de visión se rastrea la geometría usando un EQS.
 
   ![eqs cone](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/eqs_cone.PNG)
@@ -66,6 +70,9 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
   Estas configuraciones tienen el siguiente resultado final.
 
   ![vision mesh](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/vision_mesh.PNG)
+
+  La implementación final de esta mecánica se realizó recurriendo a una solución
+  basada en LineTracing, pero sin cambiar los resultados obtenidos.
 
 - **Tarea de Patrullaje**:  
   El Agente patrulla una serie de puntos predefinidos en un orden especifico.

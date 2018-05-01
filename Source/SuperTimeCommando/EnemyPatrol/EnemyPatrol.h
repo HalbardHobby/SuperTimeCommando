@@ -32,27 +32,25 @@ protected:
 	void CreateVisionCone();
 
 	/** Actualiza el cono cada frame */
-	void UpdateVisionCone(TSharedPtr<FEnvQueryResult> Result);
+	void UpdateVisionCone();
 
 	/** Cantidd de puntos de referencia para el cono */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
 	int32 NumberOfReferencePoints;
 
-	/** Query de alcance del cono de visión */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
-	class UEnvQuery* VisionConeQuery;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	float VisionConeAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+		float MaxVisionDistance;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
 	class UMaterial* VisionConeMaterial;
 	
-private:
-	/** Cono de visión */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
 	class UProceduralMeshComponent* VisionConeMesh;
 
-	/** Solicitud del cono de visión */
-	struct FEnvQueryRequest VisionConeRequest;
-
+private:
 	/** Vertices del cono procedural */
 	TArray<FVector> VisionConeVertices;
 
