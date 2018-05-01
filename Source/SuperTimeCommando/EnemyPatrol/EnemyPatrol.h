@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ProceduralMeshComponent.h"
-#include "EnvironmentQuery/EnvQueryManager.h"
-#include "EnvironmentQuery/EnvQueryTypes.h"
+#include "Engine/TargetPoint.h"
 #include "GameFramework/Character.h"
 #include "EnemyPatrol.generated.h"
 
@@ -35,20 +34,23 @@ protected:
 	void UpdateVisionCone();
 
 	/** Cantidd de puntos de referencia para el cono */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
-	int32 NumberOfReferencePoints;
+	UPROPERTY(EditAnywhere, Category = VisionCone)
+	uint32 NumberOfReferencePoints;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = VisionCone)
 	float VisionConeAngle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
-		float MaxVisionDistance;
+	UPROPERTY(EditAnywhere, Category = VisionCone)
+	float MaxVisionDistance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = VisionCone)
 	class UMaterial* VisionConeMaterial;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = VisionCone, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, Category = VisionCone)
 	class UProceduralMeshComponent* VisionConeMesh;
+
+	UPROPERTY(EditAnywhere, Category = Patrol)
+	TArray<ATargetPoint*> PatrolPoints;
 
 private:
 	/** Vertices del cono procedural */
