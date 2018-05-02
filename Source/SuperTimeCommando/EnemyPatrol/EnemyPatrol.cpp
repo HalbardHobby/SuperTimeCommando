@@ -23,10 +23,11 @@ AEnemyPatrol::AEnemyPatrol()
 	// No rotar usando la dirección de la cámara
 	bUseControllerRotationPitch = true;
 	bUseControllerRotationRoll = true;
-	bUseControllerRotationYaw = true;
+	bUseControllerRotationYaw = false;
 
 	// Configurar movimiento de personaje
-	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->bOrientRotationToMovement = false;
+	GetCharacterMovement()->bUseControllerDesiredRotation = true;
 	GetCharacterMovement()->bConstrainToPlane = true;
 	GetCharacterMovement()->bSnapToPlaneAtStart = true;
 
@@ -39,6 +40,7 @@ AEnemyPatrol::AEnemyPatrol()
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 
 }
 
@@ -54,6 +56,7 @@ void AEnemyPatrol::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	UpdateVisionCone();
+	SyncControllerRotation();
 }
 
 void AEnemyPatrol::CreateVisionCone() 
@@ -131,6 +134,12 @@ ATargetPoint* AEnemyPatrol::GetNextPatrolPoint()
 		return NextPoint;
 	}
 	return nullptr;
+}
+
+void AEnemyPatrol::SyncControllerRotation()
+{
+	AController* Controller = APawn::GetController();
+	Controller->SetControlRotation(GetActorRotation());
 }
 
 void AEnemyPatrol::FireAtPlayer()

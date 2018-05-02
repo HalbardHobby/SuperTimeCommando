@@ -62,6 +62,8 @@ protected:
 	TArray<ATargetPoint*> PatrolPath;
 
 private:
+	/** Sincroniza la rotación del personaje y el controlador */
+	void SyncControllerRotation();
 
 	/** indice de los puntos de la patrulla */
 	uint8 PatrolPathIndex;
