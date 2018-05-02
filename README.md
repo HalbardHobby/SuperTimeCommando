@@ -79,13 +79,13 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
   comportamiento de fallback en caso de no poder ejecutar ninguno de los
   anteriores mencionados.
 
-  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/assets/behavior_tree.PNG)
+  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/assets/behavior_tree.PNG)
 
 - **Percibir al jugador**:  
   Con el fin de detectar al jugador se utilizó el componente de AIPerpection, y
   se alineó con el cono de visión creado por el agente.
 
-  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/on_scene/ai_perception.PNG)
+  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/on_scene/ai_perception.PNG)
 
 ### Regresar el tiempo
 
