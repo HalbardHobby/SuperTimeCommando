@@ -48,7 +48,7 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
 
 ### Patrulla IA
 
-  Implementado en `Source/SuperTimeCommando/EnemyPatrol/EnemyPatrol.cpp` y 
+  Implementado en `Source/SuperTimeCommando/EnemyPatrol/EnemyPatrol.cpp` y
   `Source/SuperTimeCommando/EnemyPatrol/EnemyPatrol.h`
 
 
@@ -74,14 +74,18 @@ Implementado en `Source/SuperTimeCommando/Player/PlayerCharacter.cpp` y
   La implementación final de esta mecánica se realizó recurriendo a una solución
   basada en LineTracing, pero sin cambiar los resultados obtenidos.
 
-- **Tarea de Patrullaje**:  
-  El Agente patrulla una serie de puntos predefinidos en un orden especifico.
+- **Arbol de comportamiento**:  
+  El agente posee los comportamientos de patrulla, ataque, busqueda y un
+  comportamiento de fallback en caso de no poder ejecutar ninguno de los
+  anteriores mencionados.
 
-  ![patrol task](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/images/blueprints/ai_patrol/patrol_task.PNG)
+  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/assets/behavior_tree.PNG)
 
-  `TODO:` Añadir lógica para comportamiento de combate y busqueda, adicional a
-  máquina de estados finitos o arbol de comportamiento para manejar el estado
-  general de la IA.
+- **Percibir al jugador**:  
+  Con el fin de detectar al jugador se utilizó el componente de AIPerpection, y
+  se alineó con el cono de visión creado por el agente.
+
+  ![behavior tree](https://raw.githubusercontent.com/HalbardHobby/SuperTimeCommando/master/on_scene/ai_perception.PNG)
 
 ### Regresar el tiempo
 
