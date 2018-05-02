@@ -21,9 +21,9 @@ AEnemyPatrol::AEnemyPatrol()
 	GetCapsuleComponent()->InitCapsuleSize(42.0f, 96.0f);
 
 	// No rotar usando la dirección de la cámara
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationRoll = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationPitch = true;
+	bUseControllerRotationRoll = true;
+	bUseControllerRotationYaw = true;
 
 	// Configurar movimiento de personaje
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -34,6 +34,8 @@ AEnemyPatrol::AEnemyPatrol()
 	VisionConeMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("VisionConeMesh"));
 	VisionConeMesh->SetupAttachment(RootComponent);
 	VisionConeMesh->RelativeLocation = FVector(0.f, 0.f, 70.f);
+
+	PatrolPathIndex = 0;
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -118,6 +120,17 @@ void AEnemyPatrol::UpdateVisionCone()
 	VisionConeMesh->UpdateMeshSection(0, Vertices, Normals, UV0, Color, Tangents);
 	VisionConeMesh->SetMaterial(0, VisionConeMaterial);
 	VisionConeMesh->SetWorldRotation(FRotator(0.f, 0.f, 0.f));
+}
+
+ATargetPoint* AEnemyPatrol::GetNextPatrolPoint()
+{
+	if (PatrolPath.Num() > 0) {
+		ATargetPoint* NextPoint = PatrolPath[PatrolPathIndex];
+		PatrolPathIndex++;
+		PatrolPathIndex %= PatrolPath.Num();
+		return NextPoint;
+	}
+	return nullptr;
 }
 
 void AEnemyPatrol::FireAtPlayer()

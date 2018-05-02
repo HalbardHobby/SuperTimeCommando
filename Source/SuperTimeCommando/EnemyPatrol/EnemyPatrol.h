@@ -33,26 +33,39 @@ protected:
 	/** Actualiza el cono cada frame */
 	void UpdateVisionCone();
 
+	/** Obtiene el siguiente punto de navegación en la patrulla */
+	UFUNCTION(BlueprintCallable)
+	ATargetPoint* GetNextPatrolPoint();
+
 	/** Cantidd de puntos de referencia para el cono */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	uint32 NumberOfReferencePoints;
 
+	/** Angulo de visión que cubre el cono */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	float VisionConeAngle;
 
+	/** Máxima distancia que se proyecta el cono */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	float MaxVisionDistance;
 
+	/** Material usado en el cono de visión */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	class UMaterial* VisionConeMaterial;
 	
+	/** Mesh del cono de visión */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	class UProceduralMeshComponent* VisionConeMesh;
 
+	/** Puntos en 3D de la patrulla */
 	UPROPERTY(EditAnywhere, Category = Patrol)
-	TArray<ATargetPoint*> PatrolPoints;
+	TArray<ATargetPoint*> PatrolPath;
 
 private:
+
+	/** indice de los puntos de la patrulla */
+	uint8 PatrolPathIndex;
+
 	/** Vertices del cono procedural */
 	TArray<FVector> VisionConeVertices;
 
