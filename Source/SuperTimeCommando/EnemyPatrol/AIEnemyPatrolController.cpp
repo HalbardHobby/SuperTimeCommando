@@ -2,6 +2,8 @@
 
 #include "AIEnemyPatrolController.h"
 #include "Perception/AIPerceptionComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 
 
 AAIEnemyPatrolController::AAIEnemyPatrolController()
@@ -12,7 +14,8 @@ AAIEnemyPatrolController::AAIEnemyPatrolController()
 	
 	AIPerception->OnPerceptionUpdated.AddDynamic(this, &AAIEnemyPatrolController::OnPerceptionUpdated);
 
-
+	PatrolBehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("PatrolBehavior"));
+	PatrolBlackboard = CreateDefaultSubobject<UBlackboardComponent>(TEXT("PatrolBlackboard"));
 }
 
 void AAIEnemyPatrolController::BeginPlay()
@@ -23,6 +26,11 @@ void AAIEnemyPatrolController::BeginPlay()
 void AAIEnemyPatrolController::Tick(float DeltaTime)
 {
 
+}
+
+void AAIEnemyPatrolController::Possess(APawn* possessedPawn) 
+{
+	Super::Possess(possessedPawn);
 }
 
 void AAIEnemyPatrolController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors)

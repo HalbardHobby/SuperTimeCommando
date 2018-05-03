@@ -8,7 +8,7 @@
 #include "GameFramework/Character.h"
 #include "EnemyPatrol.generated.h"
 
-UCLASS()
+UCLASS(Blueprintable)
 class SUPERTIMECOMMANDO_API AEnemyPatrol : public ACharacter
 {
 	GENERATED_BODY()
