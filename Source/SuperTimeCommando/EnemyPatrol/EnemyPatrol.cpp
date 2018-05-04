@@ -34,14 +34,12 @@ AEnemyPatrol::AEnemyPatrol()
 	// Crear cono procedural
 	VisionConeMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("VisionConeMesh"));
 	VisionConeMesh->SetupAttachment(RootComponent);
-	VisionConeMesh->RelativeLocation = FVector(0.f, 0.f, 70.f);
+	VisionConeMesh->RelativeLocation = FVector(0.f, 0.f, -70.f);
 
 	PatrolPathIndex = 0;
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-
 }
 
 // Called when the game starts or when spawned

@@ -17,6 +17,7 @@ AAIEnemyPatrolController::AAIEnemyPatrolController()
 	AISightConfig->SightRadius = 1100.f;
 	AISightConfig->LoseSightRadius = 1150.f;
 	AISightConfig->PeripheralVisionAngleDegrees = 30.f;
+	AISightConfig->SetMaxAge(15.f);
 	AISightConfig->DetectionByAffiliation.bDetectEnemies = true;
 	AISightConfig->DetectionByAffiliation.bDetectNeutrals = true;
 	AISightConfig->DetectionByAffiliation.bDetectFriendlies = true;
@@ -42,6 +43,7 @@ void AAIEnemyPatrolController::Tick(float DeltaTime)
 void AAIEnemyPatrolController::Possess(APawn* possessedPawn) 
 {
 	Super::Possess(possessedPawn);
+	AEnemyPatrol* Patrol = Cast<AEnemyPatrol>(possessedPawn);
 }
 
 void AAIEnemyPatrolController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors)
