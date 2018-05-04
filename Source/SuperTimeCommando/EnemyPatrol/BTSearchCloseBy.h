@@ -14,7 +14,12 @@ class SUPERTIMECOMMANDO_API UBTSearchCloseBy : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& Owner, uint8* Node) override;
 	
-	
-	
+public:
+	UPROPERTY(EditAnywhere)
+	FVector TargetLocation;
+
+	UPROPERTY(EditAnywhere)
+	float SearchLimit;
 };

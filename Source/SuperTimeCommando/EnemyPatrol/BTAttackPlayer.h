@@ -14,7 +14,7 @@ class SUPERTIMECOMMANDO_API UBTAttackPlayer : public UBTTaskNode
 {
 	GENERATED_BODY()
 	
-	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& Owner, uint8* Node) override;
 	
 	
 };

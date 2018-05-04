@@ -2,9 +2,10 @@
 
 #include "AIEnemyPatrolController.h"
 #include "Perception/AIPerceptionComponent.h"
+#include "Perception/AISenseConfig_Sight.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
-#include "Perception/AISenseConfig_Sight.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "EnemyPatrol.h"
 #include "Engine.h"
 
@@ -44,6 +45,14 @@ void AAIEnemyPatrolController::Possess(APawn* possessedPawn)
 {
 	Super::Possess(possessedPawn);
 	AEnemyPatrol* Patrol = Cast<AEnemyPatrol>(possessedPawn);
+
+	if (Patrol)
+	{
+		Blackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
+
+		PatrolBehaviorComp->StartTree(*PatrolBehavior);
+
+	}
 }
 
 void AAIEnemyPatrolController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors)

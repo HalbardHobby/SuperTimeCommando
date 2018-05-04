@@ -2,6 +2,7 @@
 
 #include "BTAttackPlayer.h"
 
-
-
-
+EBTNodeResult::Type UBTAttackPlayer::ExecuteTask(UBehaviorTreeComponent & Owner, uint8 * Node)
+{
+	return EBTNodeResult::Type();
+}
