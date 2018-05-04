@@ -19,16 +19,6 @@ enum class EPatrolStateEnum : uint8
 	PS_Guarding		UMETA(DisplayName = "Guarding")
 };
 
-/**
- * Enumerador para arquetipo de IA
- */
-enum class EPatrolTypeEnum : uint8
-{
-	PT_Assault		UMETA(DisplayName = "Assault"),
-	PT_Range		UMETA(DisplayName = "Range")
-};
-
-
 UCLASS(Blueprintable)
 class SUPERTIMECOMMANDO_API AAIEnemyPatrolController : public AAIController
 {
@@ -56,6 +46,7 @@ protected:
 	virtual void BeginPlay() override;
 	
 	// Llamada cada vez que la percepción es actualizada.
+	UFUNCTION()
 	virtual void OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors);
 
 	UPROPERTY(EditAnywhere, Category = Perception)
@@ -69,4 +60,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
 	class UBlackboardComponent* PatrolBlackboard;
+
+	
 };
