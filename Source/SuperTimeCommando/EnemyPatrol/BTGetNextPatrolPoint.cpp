@@ -15,5 +15,5 @@ EBTNodeResult::Type UBTGetNextPatrolPoint::ExecuteTask(UBehaviorTreeComponent & 
 		UBlackboardComponent* BlackboardComp = AIPatrol->GetBlackboardComponent();
 	}
 
-	return EBTNodeResult::Type();
+	return EBTNodeResult::Succeeded;
 }

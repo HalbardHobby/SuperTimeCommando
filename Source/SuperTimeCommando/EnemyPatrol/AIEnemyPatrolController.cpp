@@ -48,10 +48,8 @@ void AAIEnemyPatrolController::Possess(APawn* possessedPawn)
 
 	if (Patrol)
 	{
-		Blackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
-
+		PatrolBlackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
 		PatrolBehaviorComp->StartTree(*PatrolBehavior);
-
 	}
 }
 

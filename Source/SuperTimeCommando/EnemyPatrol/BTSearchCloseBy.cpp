@@ -8,5 +8,5 @@
 
 EBTNodeResult::Type UBTSearchCloseBy::ExecuteTask(UBehaviorTreeComponent & Owner, uint8 * Node)
 {
-	return EBTNodeResult::Type();
+	return EBTNodeResult::Succeeded;
 }
