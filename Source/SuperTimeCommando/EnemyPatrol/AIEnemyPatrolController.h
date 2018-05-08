@@ -34,7 +34,7 @@ public:
 
 	virtual void Possess(APawn* PossessedPawn) override;
 
-	UPROPERTY(EditAnywhere, Category = Behavior)
+	UPROPERTY(EditDefaultsOnly, Category = Behavior)
 	class UBehaviorTree* PatrolBehavior;
 
 	FORCEINLINE class UBehaviorTreeComponent* GetPatrolBehaviorComp() const { return PatrolBehaviorComp; }
@@ -52,7 +52,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Perception)
 	class UAIPerceptionComponent* AIPerception;
 
-	UPROPERTY(EditAnywhere, Category = Perception)
 	class UAISenseConfig_Sight* AISightConfig;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)

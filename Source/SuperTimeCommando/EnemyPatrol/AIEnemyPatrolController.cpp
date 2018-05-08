@@ -8,6 +8,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "EnemyPatrol.h"
 #include "Engine.h"
+#include "Player/PlayerCharacter.h"
 
 
 AAIEnemyPatrolController::AAIEnemyPatrolController()
@@ -33,7 +34,7 @@ AAIEnemyPatrolController::AAIEnemyPatrolController()
 
 void AAIEnemyPatrolController::BeginPlay()
 {
-
+	Super::BeginPlay();
 }
 
 void AAIEnemyPatrolController::Tick(float DeltaTime)
@@ -46,14 +47,24 @@ void AAIEnemyPatrolController::Possess(APawn* possessedPawn)
 	Super::Possess(possessedPawn);
 	AEnemyPatrol* Patrol = Cast<AEnemyPatrol>(possessedPawn);
 
-	if (Patrol)
+	if (Patrol && PatrolBehavior)
 	{
 		PatrolBlackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
 		PatrolBehaviorComp->StartTree(*PatrolBehavior);
+
+		FName PatrolStateKey = "CurrentState";
+		PatrolBlackboard->SetValueAsEnum(PatrolStateKey, (uint8)EPatrolStateEnum::PS_Patrolling);
 	}
 }
 
 void AAIEnemyPatrolController::OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "I see you!");
+	for (int i = 0; i < UpdatedActors.Num(); i++) {
+		APlayerCharacter* player = Cast<APlayerCharacter>(UpdatedActors[i]);
+		if (player) {
+			FName IsVisibleKey = "IsEnemyVisible";
+			PatrolBlackboard->SetValueAsBool(IsVisibleKey, true);
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "I see you!");
+		}
+	}
 }
