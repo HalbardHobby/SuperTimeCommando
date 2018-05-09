@@ -17,6 +17,10 @@ public:
 	// Sets default values for this character's properties
 	AEnemyPatrol();
 
+	/** Obtiene el siguiente punto de navegación en la patrulla */
+	UFUNCTION(BlueprintCallable)
+	ATargetPoint* GetPatrolPoint(int index);
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -32,10 +36,6 @@ protected:
 
 	/** Actualiza el cono cada frame */
 	void UpdateVisionCone();
-
-	/** Obtiene el siguiente punto de navegación en la patrulla */
-	UFUNCTION(BlueprintCallable)
-	ATargetPoint* GetNextPatrolPoint();
 
 	/** Cantidd de puntos de referencia para el cono */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
@@ -64,9 +64,6 @@ protected:
 private:
 	/** Sincroniza la rotación del personaje y el controlador */
 	void SyncControllerRotation();
-
-	/** indice de los puntos de la patrulla */
-	uint8 PatrolPathIndex;
 
 	/** Vertices del cono procedural */
 	TArray<FVector> VisionConeVertices;

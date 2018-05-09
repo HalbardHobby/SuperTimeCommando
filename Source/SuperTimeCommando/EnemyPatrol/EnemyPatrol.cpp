@@ -36,8 +36,6 @@ AEnemyPatrol::AEnemyPatrol()
 	VisionConeMesh->SetupAttachment(RootComponent);
 	VisionConeMesh->RelativeLocation = FVector(0.f, 0.f, -70.f);
 
-	PatrolPathIndex = 0;
-
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -123,12 +121,10 @@ void AEnemyPatrol::UpdateVisionCone()
 	VisionConeMesh->SetWorldRotation(FRotator(0.f, 0.f, 0.f));
 }
 
-ATargetPoint* AEnemyPatrol::GetNextPatrolPoint()
+ATargetPoint* AEnemyPatrol::GetPatrolPoint(int index)
 {
 	if (PatrolPath.Num() > 0) {
-		ATargetPoint* NextPoint = PatrolPath[PatrolPathIndex];
-		PatrolPathIndex++;
-		PatrolPathIndex %= PatrolPath.Num();
+		ATargetPoint* NextPoint = PatrolPath[index % PatrolPath.Num()];
 		return NextPoint;
 	}
 	return nullptr;

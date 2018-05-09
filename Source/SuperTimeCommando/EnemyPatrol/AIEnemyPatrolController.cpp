@@ -52,8 +52,8 @@ void AAIEnemyPatrolController::Possess(APawn* possessedPawn)
 		PatrolBlackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
 		PatrolBehaviorComp->StartTree(*PatrolBehavior);
 
-		FName PatrolStateKey = "CurrentState";
-		PatrolBlackboard->SetValueAsEnum(PatrolStateKey, (uint8)EPatrolStateEnum::PS_Patrolling);
+		PatrolBlackboard->SetValueAsEnum("CurrentState", (uint8)EPatrolStateEnum::PS_Patrolling);
+		PatrolBlackboard->SetValueAsInt("PatrolNodeIndex", 0);
 	}
 }
 
