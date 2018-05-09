@@ -6,6 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "EnemyPatrol/AIEnemyPatrolController.h"
 #include "EnemyPatrol/EnemyPatrol.h"
+#include "Engine.h"
 
 
 UBTTask_GetPatrolPoint::UBTTask_GetPatrolPoint(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -23,10 +24,11 @@ EBTNodeResult::Type UBTTask_GetPatrolPoint::ExecuteTask(UBehaviorTreeComponent &
 	AEnemyPatrol* Patrol = Cast<AEnemyPatrol>(AIOwner->GetOwner());
 
 	int32 Index = Blackboard->GetValueAsInt(BlackboardKey.SelectedKeyName);
-	TArray<ATargetPoint*> PatrolPoint = Patrol->GetPatrolPath();
+	
+	ATargetPoint* PatrolPoint = AIOwner->PatrolPath[Index];
 
-	//Blackboard->SetValueAsVector(TargetLocationKey.SelectedKeyName, PatrolPoint->GetActorLocation());
-	Blackboard->SetValueAsInt(BlackboardKey.SelectedKeyName, Index + 1);
+	Blackboard->SetValueAsVector(TargetLocationKey.SelectedKeyName, PatrolPoint->GetActorLocation());
+	Blackboard->SetValueAsInt(BlackboardKey.SelectedKeyName, (Index + 1)%AIOwner->PatrolPath.Num());
 
 	return EBTNodeResult::Succeeded;
 }

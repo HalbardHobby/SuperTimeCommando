@@ -16,5 +16,9 @@ class SUPERTIMECOMMANDO_API UBTTask_SetSearchLocation : public UBTTask_Blackboar
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	
-	
+	UPROPERTY(EditAnywhere)
+	FBlackboardKeySelector LastKnownLoactionKey;
+
+	UPROPERTY(EditAnywhere)
+	float SearchRadius;
 };

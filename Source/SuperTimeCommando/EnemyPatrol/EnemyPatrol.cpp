@@ -38,6 +38,8 @@ AEnemyPatrol::AEnemyPatrol()
 
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	PatrolPath = TArray<ATargetPoint*>();
 }
 
 // Called when the game starts or when spawned
@@ -124,7 +126,7 @@ void AEnemyPatrol::UpdateVisionCone()
 ATargetPoint* AEnemyPatrol::GetPatrolPoint(int index)
 {
 	if (PatrolPath.Num() > 0) {
-		ATargetPoint* NextPoint = PatrolPath[index % PatrolPath.Num()];
+		ATargetPoint* NextPoint = PatrolPath[index];
 		return NextPoint;
 	}
 	return nullptr;

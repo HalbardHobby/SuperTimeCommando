@@ -17,6 +17,10 @@ public:
 	// Sets default values for this character's properties
 	AEnemyPatrol();
 
+	/** Puntos en 3D de la patrulla */
+	UPROPERTY(EditInstanceOnly, Category = Patrol)
+	TArray<ATargetPoint*> PatrolPath;
+
 	/** Obtiene el siguiente punto de navegación en la patrulla */
 	UFUNCTION(BlueprintCallable)
 	ATargetPoint* GetPatrolPoint(int index);
@@ -56,10 +60,6 @@ protected:
 	/** Mesh del cono de visión */
 	UPROPERTY(EditAnywhere, Category = VisionCone)
 	class UProceduralMeshComponent* VisionConeMesh;
-
-	/** Puntos en 3D de la patrulla */
-	UPROPERTY(EditAnywhere, Category = Patrol)
-	TArray<ATargetPoint*> PatrolPath;
 
 private:
 	/** Sincroniza la rotación del personaje y el controlador */

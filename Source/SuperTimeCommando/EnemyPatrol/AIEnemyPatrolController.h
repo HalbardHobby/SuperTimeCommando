@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/TargetPoint.h"
 #include "AIController.h"
 #include "AIEnemyPatrolController.generated.h"
 
@@ -36,6 +37,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Behavior)
 	class UBehaviorTree* PatrolBehavior;
+
+	UPROPERTY(EditInstanceOnly, Category = Behavior)
+	TArray<ATargetPoint*> PatrolPath;
 
 	FORCEINLINE class UBehaviorTreeComponent* GetPatrolBehaviorComp() const { return PatrolBehaviorComp; }
 

@@ -30,11 +30,17 @@ AAIEnemyPatrolController::AAIEnemyPatrolController()
 
 	PatrolBehaviorComp = CreateDefaultSubobject<UBehaviorTreeComponent>(TEXT("PatrolBehavior"));
 	PatrolBlackboard = CreateDefaultSubobject<UBlackboardComponent>(TEXT("PatrolBlackboard"));
+
+	PatrolPath = TArray<ATargetPoint*>();
 }
 
 void AAIEnemyPatrolController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	PatrolBlackboard->SetValueAsObject("Enemy", PlayerPawn);
 }
 
 void AAIEnemyPatrolController::Tick(float DeltaTime)
@@ -49,11 +55,15 @@ void AAIEnemyPatrolController::Possess(APawn* possessedPawn)
 
 	if (Patrol && PatrolBehavior)
 	{
+		PatrolPath = Patrol->PatrolPath;
+		
 		PatrolBlackboard->InitializeBlackboard(*PatrolBehavior->BlackboardAsset);
-		PatrolBehaviorComp->StartTree(*PatrolBehavior);
 
+		PatrolBlackboard->SetValueAsVector("TargetPatrolLocation", Patrol->GetActorLocation());
 		PatrolBlackboard->SetValueAsEnum("CurrentState", (uint8)EPatrolStateEnum::PS_Patrolling);
 		PatrolBlackboard->SetValueAsInt("PatrolNodeIndex", 0);
+
+		PatrolBehaviorComp->StartTree(*PatrolBehavior);
 	}
 }
 
@@ -62,9 +72,16 @@ void AAIEnemyPatrolController::OnPerceptionUpdated(const TArray<AActor*>& Update
 	for (int i = 0; i < UpdatedActors.Num(); i++) {
 		APlayerCharacter* player = Cast<APlayerCharacter>(UpdatedActors[i]);
 		if (player) {
-			FName IsVisibleKey = "IsEnemyVisible";
-			PatrolBlackboard->SetValueAsBool(IsVisibleKey, true);
-			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "I see you!");
+
+			FActorPerceptionBlueprintInfo* Info = new FActorPerceptionBlueprintInfo();
+
+			AIPerception->GetActorsPerception(player, *Info);
+
+			bool visible = Info->LastSensedStimuli[0].WasSuccessfullySensed();
+			FVector KnownLocation = Info->LastSensedStimuli[0].StimulusLocation;
+
+			PatrolBlackboard->SetValueAsBool("IsEnemyVisible", visible);
+			PatrolBlackboard->SetValueAsVector("LastKnownLocation", KnownLocation);
 		}
 	}
 }
