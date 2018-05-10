@@ -9,6 +9,7 @@
 #include "EnemyPatrol.h"
 #include "Engine.h"
 #include "Player/PlayerCharacter.h"
+#include "TimeCommandoGameMode.h"
 
 
 AAIEnemyPatrolController::AAIEnemyPatrolController()
@@ -41,12 +42,22 @@ void AAIEnemyPatrolController::BeginPlay()
 	APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 
 	PatrolBlackboard->SetValueAsObject("Enemy", PlayerPawn);
+
+	ATimeCommandoGameMode* GameMode = Cast<ATimeCommandoGameMode>(GetWorld()->GetAuthGameMode());
+	GameMode->OnEnemyLocated.AddDynamic(this, &AAIEnemyPatrolController::OnEnemyLocated);
 }
 
 void AAIEnemyPatrolController::Tick(float DeltaTime)
 {
 
 }
+
+void AAIEnemyPatrolController::OnEnemyLocated(const FVector& SensedLocation)
+{
+	PatrolBlackboard->SetValueAsVector("LastKnownLocation", SensedLocation);
+	PatrolBlackboard->SetValueAsEnum("CurrentState", (uint8)EPatrolStateEnum::PS_Combat);
+}
+
 
 void AAIEnemyPatrolController::Possess(APawn* possessedPawn) 
 {

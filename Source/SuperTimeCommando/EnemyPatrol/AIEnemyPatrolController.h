@@ -51,7 +51,7 @@ protected:
 	
 	// Llamada cada vez que la percepción es actualizada.
 	UFUNCTION()
-	virtual void OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors);
+	void OnPerceptionUpdated(const TArray<AActor*>& UpdatedActors);
 
 	UPROPERTY(EditAnywhere, Category = Perception)
 	class UAIPerceptionComponent* AIPerception;
@@ -64,5 +64,6 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Behavior)
 	class UBlackboardComponent* PatrolBlackboard;
 
-	
+	UFUNCTION()
+	void OnEnemyLocated(const FVector& SensedLocation);
 };
