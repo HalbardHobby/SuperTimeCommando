@@ -54,6 +54,8 @@ void AAIEnemyPatrolController::Tick(float DeltaTime)
 
 void AAIEnemyPatrolController::OnEnemyLocated(const FVector& SensedLocation)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, SensedLocation.ToString());
+
 	PatrolBlackboard->SetValueAsVector("LastKnownLocation", SensedLocation);
 	PatrolBlackboard->SetValueAsEnum("CurrentState", (uint8)EPatrolStateEnum::PS_Combat);
 }
